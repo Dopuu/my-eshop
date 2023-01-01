@@ -142,7 +142,7 @@ export default function ClientSide({ products }) {
                     </strong>
                     <hr className={`${styles.line} mb-1`}></hr>
                     <div className={`w-full h-full overflow-y-auto`}>
-                      <div className={`flex flex-row ml-2 mr-2 max-w-[650px] flex-wrap ${product === "" ? '' : `${styles.anim_opacity} hidden`}`}>
+                      <div className={`flex flex-row ml-2 mr-2 max-w-[650px] mt-[3px] flex-wrap ${product === "" ? '' : `${styles.anim_opacity} hidden`}`}>
                       
                         {
                           products.map(product => (
