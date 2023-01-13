@@ -6,6 +6,7 @@ import { getAllProducts } from "../lib/shopify"
 import ProductCard from '../components/productCard';
 import { ProductContext } from '../components/productContext';
 import ProductPage from '../components/productPage';
+import { ShopContext } from '../components/shopContext';
 
 const appleFont = localFont({ src: '../public/ChicagoFLF.ttf' })
 
@@ -14,7 +15,7 @@ const appleFont = localFont({ src: '../public/ChicagoFLF.ttf' })
 export default function ClientSide({ products }) {
 
   const [currentTime, setCurrentTime] = useState(new Date())
-  const [isActive, setIsActive] = useState(true);
+  const {isActive, setIsActive} = useContext(ShopContext);
   const [isCartOpen, setIsCartOpen] = useState(true);
   const [isContactOpen, setIsContactOpen] = useState(true);
   const [isTOSopen, setisTOSopen] = useState(true);
@@ -142,7 +143,7 @@ export default function ClientSide({ products }) {
                     </strong>
                     <hr className={`${styles.line} mb-1`}></hr>
                     <div className={`w-full h-full overflow-y-auto`}>
-                      <div className={`flex flex-row ml-2 mr-2 max-w-[650px] mt-[3px] flex-wrap ${product === "" ? '' : `${styles.anim_opacity} hidden`}`}>
+                      <div className={`flex flex-row ml-2 mr-2 max-w-[650px] mt-[3px] flex-wrap ${product === `` ? `${styles.opacity_animation}` : `${styles.anim_opacity} hidden`}`}>
                       
                         {
                           products.map(product => (
