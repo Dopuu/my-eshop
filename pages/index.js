@@ -1,4 +1,4 @@
-import React, { useState, useEffect, use, useContext } from 'react';
+import React, { useState, useEffect, use, useContext, createContext } from 'react';
 import localFont from '@next/font/local';
 import styles from '../styles/ClientSide.module.css';
 import Draggable from 'react-draggable';
@@ -10,23 +10,61 @@ import { ShopContext } from '../components/shopContext';
 
 const appleFont = localFont({ src: '../public/ChicagoFLF.ttf' })
 
-
+export const clientSide = createContext(null);
 
 export default function ClientSide({ products }) {
 
   const [currentTime, setCurrentTime] = useState(new Date())
-  const {isActive, setIsActive} = useContext(ShopContext);
+  const { isActive, setIsActive } = useContext(ShopContext);
   const [isCartOpen, setIsCartOpen] = useState(true);
+  const [cart, setCart] = useState([])
+  const [checkoutId, setCheckoutId] = useState('')
+  const [checkoutUrl, setCheckoutUrl] = useState('')
   const [isContactOpen, setIsContactOpen] = useState(true);
   const [isTOSopen, setisTOSopen] = useState(true);
   const [zIndex, setzIndex] = useState("");
-  const {product} = useContext(ProductContext)
+  const { product } = useContext(ProductContext)
 
   useEffect(() => {
     setInterval(() => setCurrentTime(new Date()), 500);
   }, [])
 
   let words = currentTime.toString().split(' ');
+
+  const addToCart = async (addedItem) => {
+    const newItem = { ...addedItem }
+    console.log(newItem)
+
+    if (cart.length === 0) {
+      setCart([newItem])
+
+      const checkout = await createCheckout(newItem.id, 1)
+
+      setCheckoutId(checkout.id)
+      setCheckoutUrl(checkout.webUrl)
+
+      localStorage.setItem("checkout_id", JSON.stringify([newItem, checkout]))
+    } else {
+      let newCart = []
+      let added = false
+
+      cart.map(item => {
+        if (item.id === newItem.id) {
+          item.variantQuantity++
+          newCart = [...cart]
+          added = true
+        }
+      })
+
+      if (!added) {
+        newCart = [...cart, newItem]
+      }
+
+      setCart(newCart)
+      const newCheckout = await updateCheckout(checkoutId, newCart)
+      localStorage.setItem("checkout_id", JSON.stringify([newCart, newCheckout]))
+    }
+  }
 
   // console.log(products)
   return (
@@ -144,16 +182,16 @@ export default function ClientSide({ products }) {
                     <hr className={`${styles.line} mb-1`}></hr>
                     <div className={`w-full h-full overflow-y-auto`}>
                       <div className={`flex flex-row ml-2 mr-2 max-w-[650px] mt-[3px] flex-wrap ${product === `` ? `${styles.opacity_animation}` : `${styles.anim_opacity} hidden`}`}>
-                      
+
                         {
                           products.map(product => (
-                            <ProductCard key={product.node.id} product={product} font={appleFont}/>
+                            <ProductCard key={product.node.id} product={product} font={appleFont} />
                           ))
                         }
                       </div>
                       <div className={`${product === "" ? 'hidden' : `${styles.anim_opacity}`}`}>
-                          <ProductPage product={product} font={appleFont}/>
-                        
+                        <ProductPage product={product} font={appleFont} />
+
                       </div>
                     </div>
                   </div>
