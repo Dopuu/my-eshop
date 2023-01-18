@@ -6,6 +6,7 @@ import { Parallax } from 'react-scroll-parallax'
 import { ProductContext } from './productContext'
 import axios from "axios"
 import useSWR from 'swr'
+import { CartContext } from '../pages'
 
 const fetchInventory = (url, id) =>
     axios
@@ -30,6 +31,7 @@ const ProductPage = ({ product, font }) => {
     const [counter, setCounter] = React.useState(1);
     const [hidden, setHidden] = React.useState(false);
     const { setProduct } = useContext(ProductContext);
+    const { addToCart } = useContext(CartContext)
     const [available, setAvailable] = React.useState(true)
     const { ref, inView } = useInView()
     const images = [];
@@ -42,7 +44,7 @@ const ProductPage = ({ product, font }) => {
             setHidden(false)
         }
     }, [inView])
-
+   
     // React.useEffect(() => {
     //     if (productInventory) {
     //       const checkAvailable = productInventory?.variants?.edges.filter(item => item.node.id === selectedVariant.id) || ""
@@ -100,6 +102,7 @@ const ProductPage = ({ product, font }) => {
             sizes.map((i) => {
                 if(i.node?.title === size){
                     console.log(i.node.id)
+                    addToCart({id: i.node.id, quantity: counter})
                 }
             })
         }

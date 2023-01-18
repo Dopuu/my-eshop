@@ -10,7 +10,7 @@ import { ShopContext } from '../components/shopContext';
 
 const appleFont = localFont({ src: '../public/ChicagoFLF.ttf' })
 
-export const clientSide = createContext(null);
+const CartContext = createContext();
 
 export default function ClientSide({ products }) {
 
@@ -31,7 +31,7 @@ export default function ClientSide({ products }) {
 
   let words = currentTime.toString().split(' ');
 
-  const addToCart = async (addedItem) => {
+  async function addToCart (addedItem) {
     const newItem = { ...addedItem }
     console.log(newItem)
 

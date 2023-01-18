@@ -1,7 +1,6 @@
 import React, { useContext, useState, useEffect } from 'react'
 import Image from 'next/image'
 import { ProductContext } from './productContext'
-import { CartContext } from './cartContext'
 
 
 const ProductCard = ({ product, font }) => {
@@ -12,7 +11,6 @@ const ProductCard = ({ product, font }) => {
 
     const [isHovering, setIsHovered] = useState(false);
     const { setProduct } = useContext(ProductContext);
-    const { setCart } = useContext(CartContext);
 
     const onMouseEnter = () => setIsHovered(true);
     const onMouseLeave = () => setIsHovered(false);
