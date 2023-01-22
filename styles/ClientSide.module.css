@@ -28,6 +28,20 @@
     animation-name: ani;
     animation-duration: .8s;
 }
+@keyframes ani2 {
+    0% {
+        height: 100px;
+        width: 100px;
+    }
+    100% {
+        height: 400px;
+        width: 750px;
+    }
+}
+.animation2 {
+    animation-name: ani2;
+    animation-duration: .8s;
+}
 
 @keyframes opacity {
     0%{

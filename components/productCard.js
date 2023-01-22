@@ -6,7 +6,6 @@ import { ProductContext } from './productContext'
 const ProductCard = ({ product, font }) => {
     const { handle, title } = product.node
     const { altText, url } = product.node.images.edges[0].node
-    const { altText2, url2 } = product.node.images.edges[1].node
     const price = product.node.priceRange.minVariantPrice.amount
 
     const [isHovering, setIsHovered] = useState(false);
@@ -24,7 +23,7 @@ const ProductCard = ({ product, font }) => {
                         <Image
                             src={url}
                             alt={altText}
-                            className="w-full h-[200px] cursor-pointer"
+                            className="w-[234px] h-[200px] cursor-pointer"
                             onClick={() => setProduct(product)}
                             width={600}
                             height={600}
@@ -40,7 +39,7 @@ const ProductCard = ({ product, font }) => {
                         <Image
                             src={url}
                             alt={altText}
-                            className="w-full h-[200px] cursor-pointer "
+                            className="w-[234px] h-[200px] cursor-pointer "
                             onClick={() => setProduct(product)}
                             width={600}
                             height={600}

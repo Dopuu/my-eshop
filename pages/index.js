@@ -1,4 +1,4 @@
-import React, { useState, useEffect, use, useContext, createContext } from 'react';
+import React, { useState, useEffect, useContext, createContext } from 'react';
 import localFont from '@next/font/local';
 import styles from '../styles/ClientSide.module.css';
 import Draggable from 'react-draggable';
@@ -10,16 +10,11 @@ import { ShopContext } from '../components/shopContext';
 
 const appleFont = localFont({ src: '../public/ChicagoFLF.ttf' })
 
-const CartContext = createContext();
-
 export default function ClientSide({ products }) {
 
   const [currentTime, setCurrentTime] = useState(new Date())
   const { isActive, setIsActive } = useContext(ShopContext);
   const [isCartOpen, setIsCartOpen] = useState(true);
-  const [cart, setCart] = useState([])
-  const [checkoutId, setCheckoutId] = useState('')
-  const [checkoutUrl, setCheckoutUrl] = useState('')
   const [isContactOpen, setIsContactOpen] = useState(true);
   const [isTOSopen, setisTOSopen] = useState(true);
   const [zIndex, setzIndex] = useState("");
@@ -31,40 +26,7 @@ export default function ClientSide({ products }) {
 
   let words = currentTime.toString().split(' ');
 
-  async function addToCart (addedItem) {
-    const newItem = { ...addedItem }
-    console.log(newItem)
-
-    if (cart.length === 0) {
-      setCart([newItem])
-
-      const checkout = await createCheckout(newItem.id, 1)
-
-      setCheckoutId(checkout.id)
-      setCheckoutUrl(checkout.webUrl)
-
-      localStorage.setItem("checkout_id", JSON.stringify([newItem, checkout]))
-    } else {
-      let newCart = []
-      let added = false
-
-      cart.map(item => {
-        if (item.id === newItem.id) {
-          item.variantQuantity++
-          newCart = [...cart]
-          added = true
-        }
-      })
-
-      if (!added) {
-        newCart = [...cart, newItem]
-      }
-
-      setCart(newCart)
-      const newCheckout = await updateCheckout(checkoutId, newCart)
-      localStorage.setItem("checkout_id", JSON.stringify([newCart, newCheckout]))
-    }
-  }
+  
 
   // console.log(products)
   return (
@@ -166,7 +128,7 @@ export default function ClientSide({ products }) {
 
               <div className={`${isActive ? 'hidden' : ''}`}>
                 <Draggable bounds="body" handle="strong">
-                  <div className={`${isActive ? 'hidden' : `${styles.animation} text-white w-[650px] h-[400px] bg-white flex flex-col outline outline-black outline-1 absolute ${zIndex === "STORE" ? 'z-10' : ''}`}`} onClick={() => setzIndex("STORE")}>
+                  <div className={`${isActive ? 'hidden' : `${styles.animation2} text-white w-[750px] h-[400px] bg-white flex flex-col outline outline-black outline-1 absolute ${zIndex === "STORE" ? 'z-10' : ''}`}`} onClick={() => setzIndex("STORE")}>
                     <strong className='flex flex-row'>
                       <div className={`${styles.drag} w-full`}>
                         <div className={`h-2 w-2 ml-3 mt-[6px] outline outline-black outline-2 ${isActive ? 'bg-black' : 'bg-white'} hover:bg-black`} onClick={() => setIsActive(true)}></div>
@@ -181,7 +143,7 @@ export default function ClientSide({ products }) {
                     </strong>
                     <hr className={`${styles.line} mb-1`}></hr>
                     <div className={`w-full h-full overflow-y-auto`}>
-                      <div className={`flex flex-row ml-2 mr-2 max-w-[650px] mt-[3px] flex-wrap ${product === `` ? `${styles.opacity_animation}` : `${styles.anim_opacity} hidden`}`}>
+                      <div className={`flex flex-row ml-2 max-w-[750px] mt-[3px]  flex-wrap ${product === `` ? `${styles.opacity_animation}` : `${styles.anim_opacity} hidden`}`}>
 
                         {
                           products.map(product => (

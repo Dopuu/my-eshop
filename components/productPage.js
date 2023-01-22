@@ -6,7 +6,7 @@ import { Parallax } from 'react-scroll-parallax'
 import { ProductContext } from './productContext'
 import axios from "axios"
 import useSWR from 'swr'
-import { CartContext } from '../pages'
+import { CartContext } from './shopProvider'
 
 const fetchInventory = (url, id) =>
     axios
@@ -31,7 +31,9 @@ const ProductPage = ({ product, font }) => {
     const [counter, setCounter] = React.useState(1);
     const [hidden, setHidden] = React.useState(false);
     const { setProduct } = useContext(ProductContext);
+
     const { addToCart } = useContext(CartContext)
+
     const [available, setAvailable] = React.useState(true)
     const { ref, inView } = useInView()
     const images = [];
@@ -57,19 +59,20 @@ const ProductPage = ({ product, font }) => {
     //   }, [productInventory])
     product.node?.images.edges.map((image, i) => {
         images.push(
-            <SwiperSlide key={`slide-${i}`}>
+           
                 <Image
                     src={image.node.url}
                     alt={image.node.altText}
-                    className={`w-[300px] h-[250px] cursor-pointer ml-6 mt-4`}
+                    className={`w-[300px] h-[300px] cursor-pointer ml-5 mt-4`}
                     width={600}
                     height={600}
                 />
-            </SwiperSlide>
+         
         )
     })
     product.node?.variants.edges.map((i) => {
         sizes.push(i)
+      
     })
     // sizes.map((i) =>
     //     console.log(i.node?.title)
@@ -101,7 +104,8 @@ const ProductPage = ({ product, font }) => {
         } else{
             sizes.map((i) => {
                 if(i.node?.title === size){
-                    console.log(i.node.id)
+                    // console.log((i.node.id).split("ProductVariant/")[1])
+                    //parseInt((i.node.id).split("ProductVariant/")[1])
                     addToCart({id: i.node.id, quantity: counter})
                 }
             })
@@ -110,7 +114,7 @@ const ProductPage = ({ product, font }) => {
 
     return (
         <div className={`flex flex-row`}>
-            <h1 className={`text-black ${font.className} ml-[570px] fixed z-20 text-[14px] cursor-pointer`} onClick={() => { setProduct(""); setCounter(1); setSize('') }}>go back</h1>
+            <h1 className={`text-black ${font.className} ml-[650px] fixed z-20 text-[14px] cursor-pointer`} onClick={() => { setProduct(""); setCounter(1); setSize('') }}>go back</h1>
             <div className='flex flex-col z-20'>
                 <Swiper
                     navigation
@@ -143,7 +147,7 @@ const ProductPage = ({ product, font }) => {
                     height={600}
                 /> */}
             </div>
-            <div className={`flex flex-col fixed ml-[320px]`}>
+            <div className={`flex flex-col fixed ml-[330px]`}>
                 <div className=''>
                     <div className='ml-3 mt-4'>
                         <div className='flex flex-row'>
@@ -152,7 +156,7 @@ const ProductPage = ({ product, font }) => {
                         </div>
                         <h1 className={`text-black ${font.className} text-[15px] ml-1`}>{price} eur</h1>
                     </div>
-                    <div className='ml-5 mt-2 w-[280px] h-6 break-all'>
+                    <div className='ml-5 mt-2 w-[350px] max-h-6 break-all'>
                         <h1 className={`text-black ${font.className} text-[15px]`}>{description}</h1>
                     </div>
                 </div>
@@ -179,16 +183,16 @@ const ProductPage = ({ product, font }) => {
                         <h1 className=''></h1>
                     </div>
                     <div className='flex flex-row items-center'>
-                        <div className='flex flex-row opacity-60 outline outline-1 outline-black ml-6 h-8 '>
+                        <div className='flex flex-row opacity-60 outline outline-1 outline-black ml-[59px] h-8 '>
                             <h1 className={`text-black text-center mr-1 cursor-pointer ml-1 mt-1 h-8 ${font.className}`} onClick={decrease}>&lt;</h1>
                             <h1 className={`text-black w-4 text-center mt-1 ${font.className}`}>{counter}</h1>
                             <h1 className={`text-black ml-1 cursor-pointer mr-2 mt-1 ${font.className}`} onClick={increase}>&gt;</h1>
                         </div>
                         {bool ?
-                            <h1 className={`text-black ${font.className} w-[200px] h-6 outline outline-2 text-center ml-[15px] cursor-pointer hover:bg-black hover:text-white hover:outline-black  transition-all`}>SOLD OUT</h1>
+                            <h1 className={`text-black ${font.className} w-[200px] h-6 outline outline-2 text-center ml-[10px] cursor-pointer hover:bg-black hover:text-white hover:outline-black  transition-all`}>SOLD OUT</h1>
                             :
 
-                            <h1 className={`text-black ${font.className} w-[200px] h-6 outline outline-2 text-center ml-[15px] cursor-pointer hover:bg-black hover:text-white hover:outline-black  transition-all`} onClick={() => add2Cart()}>ADD TO CART</h1>
+                            <h1 className={`text-black ${font.className} w-[200px] h-6 outline outline-2 text-center ml-[10px] cursor-pointer hover:bg-black hover:text-white hover:outline-black  transition-all`} onClick={() => add2Cart()}>ADD TO CART</h1>
 
                             }
 
