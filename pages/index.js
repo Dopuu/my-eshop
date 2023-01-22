@@ -7,6 +7,7 @@ import ProductCard from '../components/productCard';
 import { ProductContext } from '../components/productContext';
 import ProductPage from '../components/productPage';
 import { ShopContext } from '../components/shopContext';
+import Cart from '../components/cart';
 
 const appleFont = localFont({ src: '../public/ChicagoFLF.ttf' })
 
@@ -172,9 +173,12 @@ export default function ClientSide({ products }) {
                           <h1 className='cursor-default'>CART</h1>
                         </div>
                       </div>
-                      <div className={`${styles.drag} w-full`}></div>
+                      <div className={`${styles.drag} w-full`}>
+                        
+                      </div>
                     </strong>
                     <hr className={`${styles.line}`}></hr>
+                    <Cart/>
                   </div>
                 </Draggable>
               </div>
