@@ -106,7 +106,7 @@ const ProductPage = ({ product, font }) => {
                 if(i.node?.title === size){
                     // console.log((i.node.id).split("ProductVariant/")[1])
                     //parseInt((i.node.id).split("ProductVariant/")[1])
-                    addToCart({id: i.node.id, quantity: counter, price: price, node: i.node})
+                    addToCart({id: i.node.id, quantity: counter, price: price, node: product.node})
                 }
             })
         }

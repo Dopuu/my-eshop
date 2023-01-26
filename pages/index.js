@@ -163,7 +163,7 @@ export default function ClientSide({ products }) {
 
               <div className={`${isCartOpen ? 'hidden' : ``}`}>
                 <Draggable bounds="body" handle="strong">
-                  <div className={`${isCartOpen ? 'hidden' : `${styles.animation} text-white w-[650px] h-[400px] bg-white flex flex-col outline outline-black outline-1 absolute ${zIndex === "MY CART" ? 'z-10' : ''}`}`} onClick={() => setzIndex("MY CART")}>
+                  <div className={`${isCartOpen ? 'hidden' : `${styles.animation3} text-white w-[750px] h-[500px] bg-white flex flex-col outline outline-black outline-1 absolute ${zIndex === "MY CART" ? 'z-10' : ''}`}`} onClick={() => setzIndex("MY CART")}>
                     <strong className='flex flex-row' onClick={() => setzIndex("MY CART")}>
                       <div className={`${styles.drag} w-full`}>
                         <div className={`h-2 w-2 ml-3 mt-[6px] outline outline-black outline-2 ${isCartOpen ? 'bg-black' : 'bg-white'} hover:bg-black`} onClick={() => setIsCartOpen(true)}></div>
