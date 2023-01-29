@@ -178,7 +178,7 @@ export default function ClientSide({ products }) {
                       </div>
                     </strong>
                     <hr className={`${styles.line}`}></hr>
-                    <Cart/>
+                    <Cart font={appleFont}/>
                   </div>
                 </Draggable>
               </div>
