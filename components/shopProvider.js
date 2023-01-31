@@ -44,7 +44,7 @@ export default function ShopProvider({ children }) {
 
             cart.map(item => {
                 if (item.id === newItem.id) {
-                    item.variantQuantity++
+                    item.quantity++
                     newCart = [...cart]
                     added = true
                 }
@@ -75,21 +75,61 @@ export default function ShopProvider({ children }) {
     async function removeCartItem(itemToRemove) {
         const updatedCart = cart.filter(item => item.id !== itemToRemove)
         setCartLoading(true)
-    
+
         setCart(updatedCart)
-    
+
         const newCheckout = await updateCheckout(checkoutId, updatedCart)
-    
+
         localStorage.setItem("checkout_id", JSON.stringify([updatedCart, newCheckout]))
         setCartLoading(false)
-    
-      }
+
+    }
+    async function incrementCartItem(item) {
+        setCartLoading(true)
+
+        let newCart = []
+
+        cart.map(cartItem => {
+            if (cartItem.id === item.id) {
+                cartItem.quantity++
+                newCart = [...cart]
+            }
+        })
+        setCart(newCart)
+        const newCheckout = await updateCheckout(checkoutId, newCart)
+
+        localStorage.setItem("checkout_id", JSON.stringify([newCart, newCheckout]))
+        setCartLoading(false)
+    }
+    async function decrementCartItem(item) {
+        setCartLoading(true)
+
+        if (item.quantity === 1) {
+            removeCartItem(item.id)
+        } else {
+            let newCart = []
+            cart.map(cartItem => {
+                if (cartItem.id === item.id) {
+                    cartItem.quantity--
+                    newCart = [...cart]
+                }
+            })
+
+            setCart(newCart)
+            const newCheckout = await updateCheckout(checkoutId, newCart)
+
+            localStorage.setItem("checkout_id", JSON.stringify([newCart, newCheckout]))
+        }
+        setCartLoading(false)
+    }
     return (
         <CartContext.Provider value={{
             cart,
             addToCart,
             checkoutUrl,
             removeCartItem,
+            incrementCartItem,
+            decrementCartItem,
             cartLoading,
             clearCart
         }}>
